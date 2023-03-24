@@ -15,6 +15,7 @@ import {
   Tr,
   useBreakpointValue,
 } from '@chakra-ui/react';
+import Link from 'next/link';
 import { RiAddLine, RiPencilLine } from 'react-icons/ri';
 
 import { Header } from '@/components/Header/Header';
@@ -46,7 +47,8 @@ export default function UserList() {
             </Heading>
 
             <Button
-              as="a"
+              as={Link}
+              href="/users/create"
               size="sm"
               fontSize="sm"
               colorScheme="pink"
