@@ -9,7 +9,7 @@ export function Logo() {
       w="64"
     >
       dashgo
-      <Text as="span" color="pink.500" ml="1">
+      <Text as="span" color="yellow.200" ml="1">
         .
       </Text>
     </Text>

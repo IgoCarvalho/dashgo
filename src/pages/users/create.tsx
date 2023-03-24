@@ -48,7 +48,7 @@ export default function CreateUser() {
                 <Button as={Link} href="/users" colorScheme="whiteAlpha">
                   Cancelar
                 </Button>
-                <Button colorScheme="pink">Salvar</Button>
+                <Button colorScheme="yellow">Salvar</Button>
               </HStack>
             </Flex>
           </Stack>

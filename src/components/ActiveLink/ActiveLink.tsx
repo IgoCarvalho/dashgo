@@ -24,7 +24,7 @@ export function ActiveLink({
   }
 
   return (
-    <Link {...props} color={isActive ? 'pink.400' : 'gray.50'}>
+    <Link {...props} color={isActive ? 'yellow.400' : 'gray.50'}>
       {children}
     </Link>
   );
