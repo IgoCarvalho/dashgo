@@ -15,10 +15,15 @@ import { SidebarNav } from './SidebarNav';
 export function Sidebar() {
   const { isOpen, onClose } = useSidebarDrawer();
 
-  const isDrawerSidebar = useBreakpointValue({
-    base: true,
-    lg: false,
-  });
+  const isDrawerSidebar = useBreakpointValue(
+    {
+      base: true,
+      lg: false,
+    },
+    {
+      fallback: 'lg',
+    }
+  );
 
   if (isDrawerSidebar) {
     return (
