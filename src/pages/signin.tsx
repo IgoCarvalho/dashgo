@@ -1,5 +1,7 @@
 import { Button, Flex, Stack } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Input } from '@/components/Form/Input';
 
@@ -8,12 +10,19 @@ type SignInForm = {
   password: string;
 };
 
+const signInFormSchema = z.object({
+  email: z.string().nonempty('E-mail obrigatório').email('E-mail inválido'),
+  password: z.string().nonempty('Senha obrigatória'),
+});
+
 export default function SignIn() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<SignInForm>();
+    formState: { isSubmitting, errors },
+  } = useForm<SignInForm>({
+    resolver: zodResolver(signInFormSchema),
+  });
 
   const onSubmit: SubmitHandler<SignInForm> = async (data) => {
     console.log(data);
@@ -32,8 +41,18 @@ export default function SignIn() {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Stack spacing="4">
-          <Input type="email" label="E-mail" {...register('email')} />
-          <Input type="password" label="Senha" {...register('password')} />
+          <Input
+            type="email"
+            label="E-mail"
+            error={errors.email}
+            {...register('email')}
+          />
+          <Input
+            type="password"
+            label="Senha"
+            error={errors.password}
+            {...register('password')}
+          />
         </Stack>
 
         <Button
