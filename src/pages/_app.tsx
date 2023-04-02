@@ -1,6 +1,7 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { makeServer } from '@/services/mirage';
 import { SidebarDrawerProvider } from '@/contexts/SidebarDrawerContext';
@@ -10,6 +11,8 @@ import { theme } from '@/styles/theme';
 if (process.env.NODE_ENV === 'development') {
   makeServer();
 }
+
+const queryCLient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -21,11 +24,13 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ChakraProvider theme={theme}>
-        <SidebarDrawerProvider>
-          <Component {...pageProps} />
-        </SidebarDrawerProvider>
-      </ChakraProvider>
+      <QueryClientProvider client={queryCLient}>
+        <ChakraProvider theme={theme}>
+          <SidebarDrawerProvider>
+            <Component {...pageProps} />
+          </SidebarDrawerProvider>
+        </ChakraProvider>
+      </QueryClientProvider>
     </>
   );
 }
