@@ -21,12 +21,19 @@ import { RiAddLine, RiPencilLine } from 'react-icons/ri';
 import { Header } from '@/components/Header/Header';
 import { Pagination } from '@/components/Pagination/Pagination';
 import { Sidebar } from '@/components/Sidebar/Sidebar';
+import { useEffect } from 'react';
 
 export default function UserList() {
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true,
   });
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/users')
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }, []);
 
   return (
     <Box>
