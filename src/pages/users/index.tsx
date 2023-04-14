@@ -31,7 +31,7 @@ export default function UserList() {
     lg: true,
   });
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, isRefetching, error } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
       const response = await fetch('http://localhost:3000/api/users');
@@ -67,6 +67,7 @@ export default function UserList() {
           <Flex mb="8" justify="space-between" align="center">
             <Heading size="lg" fontWeight="normal">
               Usuários
+              {isRefetching && <Spinner size="sm" color="gray.500" ml="4" />}
             </Heading>
 
             <Button
