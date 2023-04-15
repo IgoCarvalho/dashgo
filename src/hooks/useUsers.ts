@@ -2,8 +2,12 @@ import { api } from '@/services/api';
 import { User } from '@/types/user';
 import { useQuery } from '@tanstack/react-query';
 
-async function getUsers() {
-  const { data } = await api.get<{ users: User[] }>('users');
+async function getUsers(page: number) {
+  const { data, headers } = await api.get<{ users: User[] }>('users', {
+    params: {
+      page,
+    },
+  });
 
   const users = data.users.map((user) => ({
     ...user,
@@ -14,13 +18,15 @@ async function getUsers() {
     }),
   }));
 
-  return { users };
+  const totalCount = Number(headers['x-total-count']);
+
+  return { users, totalCount };
 }
 
-export function useUsers() {
+export function useUsers(page: number) {
   return useQuery({
-    queryKey: ['users'],
-    queryFn: getUsers,
+    queryKey: ['users', page],
+    queryFn: () => getUsers(page),
     staleTime: 6000,
   });
 }

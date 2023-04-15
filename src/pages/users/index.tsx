@@ -17,6 +17,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { RiAddLine, RiPencilLine } from 'react-icons/ri';
 
 import { Header } from '@/components/Header/Header';
@@ -30,7 +31,9 @@ export default function UserList() {
     lg: true,
   });
 
-  const { data, isLoading, isRefetching, error } = useUsers();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const { data, isLoading, isRefetching, error } = useUsers(currentPage);
 
   return (
     <Box>
@@ -119,7 +122,12 @@ export default function UserList() {
                 </Table>
               </TableContainer>
 
-              <Pagination />
+              <Pagination
+                totalCountOfRegisters={data?.totalCount || 0}
+                onPageChange={setCurrentPage}
+                currentPage={currentPage}
+                siblingPagesCount={2}
+              />
             </>
           )}
         </Box>
