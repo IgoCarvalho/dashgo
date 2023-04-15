@@ -5,6 +5,7 @@ import {
   Flex,
   Heading,
   Icon,
+  Link,
   Spinner,
   Table,
   TableContainer,
@@ -16,13 +17,14 @@ import {
   Tr,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { useState } from 'react';
 import { RiAddLine, RiPencilLine } from 'react-icons/ri';
 
 import { Header } from '@/components/Header/Header';
 import { Pagination } from '@/components/Pagination/Pagination';
 import { Sidebar } from '@/components/Sidebar/Sidebar';
+import { usePrefetchUser } from '@/hooks/usePrefetchUser';
 import { useUsers } from '@/hooks/useUsers';
 
 export default function UserList() {
@@ -34,6 +36,11 @@ export default function UserList() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data, isLoading, isRefetching, error } = useUsers(currentPage);
+  const { prefetchUser } = usePrefetchUser();
+
+  function handlePrefetchUser(userId: string) {
+    prefetchUser(userId);
+  }
 
   return (
     <Box>
@@ -55,7 +62,7 @@ export default function UserList() {
             </Heading>
 
             <Button
-              as={Link}
+              as={NextLink}
               href="/users/create"
               size="sm"
               fontSize="sm"
@@ -97,7 +104,12 @@ export default function UserList() {
 
                         <Td>
                           <Box>
-                            <Text fontWeight="bold">{user.name}</Text>
+                            <Link
+                              color="purple.400"
+                              onMouseEnter={() => handlePrefetchUser(user.id)}
+                            >
+                              <Text fontWeight="bold">{user.name}</Text>
+                            </Link>
                             <Text fontSize="sm" color="gray.300">
                               {user.email}
                             </Text>
