@@ -31,9 +31,12 @@ export function Pagination({
   siblingPagesCount = 2,
 }: PaginationProps) {
   const registersStart = registersPerPage * (currentPage - 1);
-  const registersEnd = registersStart + registersPerPage;
+  const registersEnd = Math.min(
+    registersStart + registersPerPage,
+    totalCountOfRegisters
+  );
 
-  const lastPage = Math.floor(totalCountOfRegisters / registersPerPage);
+  const lastPage = Math.ceil(totalCountOfRegisters / registersPerPage);
 
   const { previousPages, nextPages } = generatePagesArray(
     currentPage,
