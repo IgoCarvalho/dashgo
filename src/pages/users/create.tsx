@@ -10,12 +10,14 @@ import {
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Input } from '@/components/Form/Input';
 import { Header } from '@/components/Header/Header';
 import { Sidebar } from '@/components/Sidebar/Sidebar';
+import { useCreateUserMutation } from '@/hooks/useCreateUserMutation';
 
 type CreateUserForm = {
   name: string;
@@ -40,6 +42,8 @@ const createUserFormSchema = z
   });
 
 export default function CreateUser() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -48,8 +52,12 @@ export default function CreateUser() {
     resolver: zodResolver(createUserFormSchema),
   });
 
-  const handleCreateUser: SubmitHandler<CreateUserForm> = (data) => {
-    console.log(data);
+  const { createUserMutation } = useCreateUserMutation();
+
+  const handleCreateUser: SubmitHandler<CreateUserForm> = async (data) => {
+    await createUserMutation.mutateAsync(data);
+
+    router.push('/users');
   };
 
   return (
